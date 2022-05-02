@@ -1,7 +1,13 @@
 package main
 
-import "fmt"
+import (
+	//"fmt"
+	"github.com/mrlaowilly/devgo/cours"
+)
 
 func main() {
-	fmt.Println("Hello Guys")
+	//fmt.Println("Hello World", cours.LeNomDeLaVariablePublic, cours.LeNomDeLaVariablePublicAvecValue)
+	//fmt.Println(cours.Hello("Willy"))
+
+	cours.Master()
 }
