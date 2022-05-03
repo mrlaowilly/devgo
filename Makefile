@@ -22,4 +22,9 @@ build: clean ## On fait un build
 		for arch in $(TARGET_ARCH); do 													\
 			env GOOS=$$os GOARCH=$$arch go build -o ./build/app-$$os-$$arch main.go ; 	\
 		done; 																			\
-	done;	
+	done;
+
+commit:
+	git add -A .
+	git commit -m "auto commit"
+	git push

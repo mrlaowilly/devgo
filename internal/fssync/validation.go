@@ -3,6 +3,7 @@ package fssync
 import (
 	"fmt"
 	"os"
+	"path"
 	"strings"
 )
 
@@ -12,7 +13,7 @@ func FolderExist(path string) bool {
 		return false
 	}
 
-	return false
+	return true
 }
 
 func CreatFolderIfNotExist(path string) {
@@ -37,6 +38,41 @@ func Scan(path string, base string) []string {
 	return list
 }
 
-func Copy(source string, target string) {
+func Copy(source string, target string) error {
 	fmt.Println(source, target)
+
+	fi, err := os.Open(source)
+	defer fi.Close()
+	if err != nil {
+		return err
+	}
+
+	parentFolder := path.Dir(target)
+	err = os.MkdirAll(parentFolder, 0755)
+	if err != nil {
+		return err
+	}
+
+	fo, err := os.Create(target)
+	defer fo.Close()
+	if err != nil {
+		return err
+	}
+
+	buffer := make([]byte, 1024)
+	for {
+		n, err := fi.Read(buffer)
+
+		if n == 0 {
+			break
+		} else if err != nil {
+			return err
+		}
+
+		if _, err := fo.Write(buffer[:n]); err != nil {
+			break
+		}
+	}
+
+	return nil
 }
